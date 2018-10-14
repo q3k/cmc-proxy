@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package proto;
+
+message GetKVMDataRequest {
+    int64 blade_num = 1;
+}
+
+message GetKVMDataResponse {
+    repeated string arguments = 1;
+}
+
+service CMCProxy {
+    rpc GetKVMData(GetKVMDataRequest) returns (GetKVMDataResponse);
+}
