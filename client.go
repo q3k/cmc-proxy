@@ -139,7 +139,7 @@ func (c *cmcClient) addCookies(req *http.Request) {
 	req.AddCookie(&http.Cookie{Name: "custom_domain", Value: ""})
 	req.AddCookie(&http.Cookie{Name: "domain_selected", Value: "This Chassis"})
 	if c.session != "" {
-		glog.Infof("Adding session: %v", c.session)
+		glog.Infof("Session cookie: %v", c.session)
 		req.AddCookie(&http.Cookie{Name: "sid", Value: c.session})
 	}
 }
@@ -243,7 +243,6 @@ func (c *cmcClient) getiDRACJNLP(loginUrl string) (*KVMDetails, error) {
 
 	req, err = http.NewRequest("GET", jnlpURL.String(), nil)
 	for _, cookie := range resp.Cookies() {
-		glog.Infof("%+v", cookie)
 		req.AddCookie(cookie)
 	}
 	req.AddCookie(&http.Cookie{Name: "SessionCookie", Value: sessionCookie})
@@ -289,7 +288,6 @@ func (c *cmcClient) login() error {
 	values.Set("WEBSERVER_timeout", "1800")
 	values.Set("WEBSERVER_timeout_select", "1800")
 	valuesString := values.Encode()
-	glog.Info(valuesString)
 	req, err := http.NewRequest("POST", makeUrl(pathLogin), strings.NewReader(valuesString))
 	if err != nil {
 		return fmt.Errorf("POST prepare to %s failed: %v", pathLogin, err)
